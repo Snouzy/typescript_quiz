@@ -2,8 +2,25 @@ import React, { Component } from "react";
 import { Container, Grid } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { StyledButtonTrue, StyledButtonFalse } from "./style";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { IStore } from "./reducers";
 
-export class App extends Component {
+interface OwnProps {
+
+}
+
+interface StateProps {
+
+}
+
+interface DispatchProps {
+
+}
+type Props = OwnProps & StateProps & DispatchProps;
+
+export class App extends Component<Props> {
 
   private renderHeader = () => {
     return (<Grid container direction="row" justify="space-between" alignItems="flex-start">
@@ -43,5 +60,14 @@ export class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = (state: IStore): StateProps => {
+    return {
+    }
+}
 
+const mapDispatchToProps = (dispatch: ThunkDispatch<{},{},AnyAction>) : DispatchProps => {
+    return {
+
+    }
+}
+export default connect<StateProps, DispatchProps, OwnProps, IStore>(mapStateToProps, mapDispatchToProps)(App);
