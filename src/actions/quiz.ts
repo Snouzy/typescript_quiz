@@ -4,7 +4,7 @@ import { TYPES } from "./actions-types";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-enum Difficulty {
+export enum Difficulty {
     easy,
     medium,
     hard

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { IStore } from "./reducers";
+import { Difficulty, getQuizListItem } from "./actions/quiz";
 
 interface OwnProps {
 
@@ -16,48 +17,55 @@ interface StateProps {
 }
 
 interface DispatchProps {
-
+    getQuizListItem: typeof getQuizListItem;
 }
+
+
 type Props = OwnProps & StateProps & DispatchProps;
 
 export class App extends Component<Props> {
 
-  private renderHeader = () => {
-    return (<Grid container direction="row" justify="space-between" alignItems="flex-start">
-      <Box mt={10} fontWeight="fontWeightBold" fontSize={40} >
-        <div style={{ color: "#e55fff" }}>Easy</div>
-        <div style={{ color: "#2858fb" }} >Quizy</div>
-      </Box>
-      <Box mt={10} fontSize={20} className="txt"> Score : TODO / TODO</Box>
-    </Grid>)
-  }
+    //hooks plus tard juste pr comprendre les typages
+    componentDidMount() {
+        this.props.getQuizListItem(10, Difficulty.easy); 
+    }
 
-  private renderQuestionInfo = () => {
-    return (<Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '40vh' }}>
-      <div className="txt question_number">Question N° TODO / TODO </div>
-      <div className="txt question_number"> Category TODO </div>
-      <div className="txt" >TypeScript Quiz starter ! Ici nous devrions afficher une question !</div>
-    </Grid>)
-  }
+    private renderHeader = () => {
+        return (<Grid container direction="row" justify="space-between" alignItems="flex-start">
+        <Box mt={10} fontWeight="fontWeightBold" fontSize={40} >
+            <div style={{ color: "#e55fff" }}>Easy</div>
+            <div style={{ color: "#2858fb" }} >Quizy</div>
+        </Box>
+        <Box mt={10} fontSize={20} className="txt"> Score : TODO / TODO</Box>
+        </Grid>)
+    }
 
-  private renderButton = () => {
-    return (
-      <Grid container direction="row" alignItems="center" justify="space-evenly" >
-        <StyledButtonTrue>TRUE</StyledButtonTrue>
-        <StyledButtonFalse >FALSE</StyledButtonFalse>
-      </Grid>
-    )
-  }
+    private renderQuestionInfo = () => {
+        return (<Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '40vh' }}>
+        <div className="txt question_number">Question N° TODO / TODO </div>
+        <div className="txt question_number"> Category TODO </div>
+        <div className="txt" >TypeScript Quiz starter ! Ici nous devrions afficher une question !</div>
+        </Grid>)
+    }
 
-  render() {
-    return (
-      <Container maxWidth="lg" >
-        {this.renderHeader()}
-        {this.renderQuestionInfo()}
-        {this.renderButton()}
-      </Container >
-    );
-  }
+    private renderButton = () => {
+        return (
+        <Grid container direction="row" alignItems="center" justify="space-evenly" >
+            <StyledButtonTrue>TRUE</StyledButtonTrue>
+            <StyledButtonFalse >FALSE</StyledButtonFalse>
+        </Grid>
+        )
+    }
+
+    render() {
+        return (
+        <Container maxWidth="lg" >
+            {this.renderHeader()}
+            {this.renderQuestionInfo()}
+            {this.renderButton()}
+        </Container >
+        );
+    }
 }
 
 const mapStateToProps = (state: IStore): StateProps => {
@@ -65,9 +73,10 @@ const mapStateToProps = (state: IStore): StateProps => {
     }
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{},{},AnyAction>) : DispatchProps => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) : DispatchProps => {
     return {
-
+        getQuizListItem: (questionAmount: number, difficulty: Difficulty) => dispatch(getQuizListItem(questionAmount, difficulty))
     }
 }
+
 export default connect<StateProps, DispatchProps, OwnProps, IStore>(mapStateToProps, mapDispatchToProps)(App);
