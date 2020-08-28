@@ -5,7 +5,7 @@ import { StyledButtonTrue, StyledButtonFalse } from "./style";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IStore } from "./reducers";
-import { Difficulty, getQuizListItem } from "./actions/quiz";
+import { Difficulty, getQuizListItem, giveAnswer } from "./actions/quiz";
 import { IQuizListItem, IQuizList } from "./models";
 import { getCurrentQuizListItem } from "./selectors/quiz";
 
@@ -21,7 +21,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    getQuizListItem: typeof getQuizListItem;
+    getQuizListItem: typeof getQuizListItem,
+    giveAnswer: typeof giveAnswer
 }
 
 
@@ -47,17 +48,23 @@ export class App extends Component<Props> {
     private renderQuestionInfo = () => {
         const { quizListLength, currentQuizItemIndex, currentQuizItem } = this.props; 
         return (<Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '40vh' }}>
-        <div className="txt question_number">Question N° {currentQuizItemIndex} / {quizListLength} </div>
+        <div className="txt question_number">Question N° {currentQuizItemIndex + 1} / {quizListLength} </div>
         <div className="txt question_number"> Category {currentQuizItem!.category} </div>
     <div className="txt" dangerouslySetInnerHTML={{__html: currentQuizItem!.question}}></div>
         </Grid>)
     }
 
+    private answerQuestion = (answer: "True" | "False") => () => {
+        const isCorrectAnswer = this.props.currentQuizItem!.correct_answer === answer;
+        const isLastQuestion = this.props.currentQuizItemIndex === this.props.quizListLength - 1;
+        this.props.giveAnswer(isCorrectAnswer, isLastQuestion);
+    }
+
     private renderButton = () => {
         return (
         <Grid container direction="row" alignItems="center" justify="space-evenly" >
-            <StyledButtonTrue>TRUE</StyledButtonTrue>
-            <StyledButtonFalse >FALSE</StyledButtonFalse>
+            <StyledButtonTrue onClick={this.answerQuestion("True")}>TRUE</StyledButtonTrue>
+            <StyledButtonFalse onClick={this.answerQuestion("False")}>FALSE</StyledButtonFalse>
         </Grid>
         )
     }
@@ -84,7 +91,8 @@ const mapStateToProps = (state: IStore): StateProps => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) : DispatchProps => {
     return {
-        getQuizListItem: (questionAmount: number, difficulty: Difficulty) => dispatch(getQuizListItem(questionAmount, difficulty))
+        getQuizListItem: (questionAmount: number, difficulty: Difficulty) => dispatch(getQuizListItem(questionAmount, difficulty)),
+        giveAnswer: (isCorrectAnswer: boolean, isLastQuestion: boolean) => dispatch(giveAnswer(isCorrectAnswer, isLastQuestion))
     }
 }
 
