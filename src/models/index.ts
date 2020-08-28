@@ -10,3 +10,7 @@ export interface IQuizListItem {
 export interface IQuizList {
     results: IQuizListItem
 }
+export interface Action<T> {
+    type: string;
+    payload: T
+}
