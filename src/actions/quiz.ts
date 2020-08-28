@@ -19,7 +19,7 @@ export const getQuizListItem = (questionAmount: number, difficulty: Difficulty) 
 export const giveAnswer = (isCorrectAnswer: boolean, isLastQuestion: boolean) => {
     return async(dispatch: ThunkDispatch<{},{},AnyAction>) => {
         if(isCorrectAnswer) {
-            dispatch({type: TYPES.gaveCorrectAnswer})
+            dispatch({type: TYPES.incrementScore})
         }
         if(!isLastQuestion) {
             dispatch({type: TYPES.setNextQuestion})

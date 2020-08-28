@@ -4,16 +4,19 @@ import Box from '@material-ui/core/Box';
 import { StyledButtonTrue, StyledButtonFalse } from "./style";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import { IStore } from "./reducers";
 import { Difficulty, getQuizListItem } from "./actions/quiz";
+import { IQuizListItem, IQuizList } from "./models";
+import { getCurrentQuizListItem } from "./selectors/quiz";
 
 interface OwnProps {
 
 }
 
 interface StateProps {
-
+    currentQuizItem?: IQuizListItem,
+    currentQuizItemIndex: number,
+    quizListLength: number
 }
 
 interface DispatchProps {
@@ -70,6 +73,9 @@ export class App extends Component<Props> {
 
 const mapStateToProps = (state: IStore): StateProps => {
     return {
+        currentQuizItem: getCurrentQuizListItem(state),
+        currentQuizItemIndex: state.quiz.currentQuizItemIndex,
+        quizListLength: state.quiz.quizListItem.length
     }
 }
 

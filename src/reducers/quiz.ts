@@ -5,13 +5,13 @@ import { AnyAction } from "redux";
 export interface IQuizInitialState {
     quizListItem: IQuizListItem[],
     currentQuizItemIndex: number;
-    countCorrectAnswer: number;
+    score: number;
 }
 
 const quizInitialState: IQuizInitialState = {
     quizListItem: [],
     currentQuizItemIndex: 0,
-    countCorrectAnswer: 0
+    score: 0
 }
 export const QuizReducer = (state = quizInitialState, action: AnyAction) : IQuizInitialState => {
     switch(action.type) {
@@ -20,11 +20,11 @@ export const QuizReducer = (state = quizInitialState, action: AnyAction) : IQuiz
                 ...state,
                 quizListItem: (action as Action<IQuizListItem[]>).payload
             }
-            
-        case TYPES.gaveCorrectAnswer:
+
+        case TYPES.incrementScore:
         return {
             ...state,
-            countCorrectAnswer: state.countCorrectAnswer + 1
+            score: state.score + 1
         }
 
         case TYPES.setNextQuestion:
@@ -37,7 +37,7 @@ export const QuizReducer = (state = quizInitialState, action: AnyAction) : IQuiz
         return {
             ...state,
             currentQuizItemIndex: 0,
-            countCorrectAnswer: 0
+            score: 0
         }
         default: return state;
     }

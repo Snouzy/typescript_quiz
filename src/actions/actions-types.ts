@@ -1,6 +1,6 @@
 export const TYPES = {
     getQuizListItems: "getQuizListItems",
-    gaveCorrectAnswer: "gaveCorrectAnswer",
+    incrementScore: "incrementScore",
     setNextQuestion: "setNextQuestion",
     restart: "restart"
 }
