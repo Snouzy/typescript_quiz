@@ -1,3 +1,6 @@
 export const TYPES = {
-    getQuizListItems: "getQuizListItems"
+    getQuizListItems: "getQuizListItems",
+    gaveCorrectAnswer: "gaveCorrectAnswer",
+    setNextQuestion: "setNextQuestion",
+    restart: "restart"
 }
